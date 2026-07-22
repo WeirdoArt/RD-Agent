@@ -859,6 +859,9 @@ class QlibCondaEnv(LocalEnv[QlibCondaConf]):
                     f"conda run -n {self.conf.conda_env_name} pip install catboost xgboost tables torch",
                     shell=True,
                 )
+            # Refresh conda env PATH after potential creation so _run()
+            # can find conda binaries even on first use.
+            self.conf._update_bin_path()
 
         except Exception as e:
             print(f"[red]Failed to prepare conda env: {e}[/red]")
